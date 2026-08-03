@@ -1,6 +1,6 @@
 # cloudflare-dyndns-gui
 
-![Build](https://github.com/jookySK/cloudflare-dynddns-gui/actions/workflows/build.yml/badge.svg)
+![Build](https://github.com/jookySK/cloudflare-dyndns-gui/actions/workflows/build.yml/badge.svg)
 
 Simple Windows tray app that keeps your Cloudflare DNS records updated with your dynamic IP. GUI setup, no dependencies, single `.exe`.
 
