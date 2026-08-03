@@ -1,0 +1,39 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ "v*" ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compile with .NET Framework csc
+        shell: cmd
+        run: >
+          C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+          /nologo /target:winexe /out:CloudflareDDNS.exe /win32icon:app.ico
+          /r:System.dll /r:System.Core.dll /r:System.Drawing.dll
+          /r:System.Windows.Forms.dll /r:System.Web.Extensions.dll /r:System.Security.dll
+          Program.cs
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CloudflareDDNS
+          path: CloudflareDDNS.exe
+
+      - name: Attach exe to release (only for version tags)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: CloudflareDDNS.exe
