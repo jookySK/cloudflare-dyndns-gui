@@ -1,14 +1,15 @@
 # cloudflare-ddns-tray
 
+![Build](https://github.com/jookySK/cloudflare-ddns-gui/actions/workflows/build.yml/badge.svg)
+
 Simple Windows tray app that keeps your Cloudflare DNS records updated with your dynamic IP. GUI setup, no dependencies, single `.exe`.
 
 Most Cloudflare DDNS updaters are command-line scripts that require editing config files by hand. This one is different: you paste your API token, it loads all your zones and A records, you tick the ones you want to keep updated, set the check interval — and it quietly runs in the system tray from then on.
 
-> 🇸🇰 The user interface is currently in Slovak.
-
 ## Features
 
 - ✅ **Single portable `.exe`** — no installer, no runtime to download (uses the .NET Framework built into Windows 10/11)
+- 🌍 **English & Slovak UI** — pick your language on first launch (with flags 🙂), switchable anytime in settings
 - 🖱️ **Full GUI setup** — loads your zones and DNS records straight from Cloudflare, just tick the ones to update
 - ⏱️ **Configurable interval** — checks your public IP every 1–1440 minutes
 - 🔔 **Runs in the system tray** — closing the window just hides it; balloon notification when records get updated
@@ -73,7 +74,13 @@ mcs -target:winexe -out:CloudflareDDNS.exe -win32icon:app.ico -codepage:utf8 \
   Program.cs
 ```
 
-The whole app is a single file, [`Program.cs`](Program.cs) (~450 lines), so it's easy to audit before running.
+The whole app is a single file, [`Program.cs`](Program.cs) (~600 lines), so it's easy to audit before running.
+
+## Automated builds (GitHub Actions)
+
+Every push to `main` is compiled automatically by the [build workflow](.github/workflows/build.yml) on a clean Windows runner — the resulting exe is available as a build artifact on each workflow run, so you can verify the binary really comes from the source in this repo.
+
+To publish a new version: create a tag starting with `v` (e.g. `v1.1.0`) or draft a new Release with such a tag — the workflow compiles the exe and attaches it to the Release automatically.
 
 ## How it works
 
@@ -82,7 +89,6 @@ Every *N* minutes the app asks a public "what is my IP" service for your current
 ## Limitations
 
 - IPv4 (A records) only — AAAA/IPv6 support may come later
-- UI language is Slovak
 - Windows only (WinForms)
 
 ## License
